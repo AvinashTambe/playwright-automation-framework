@@ -1,10 +1,13 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import imaps from "imap-simple";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 export class LoginPage {
+  static navigate(page: Page) {
+    throw new Error('Method not implemented.');
+  }
   page: any;
   loginLink: any;
   emailInput: any;
@@ -145,7 +148,7 @@ export class LoginPage {
     await this.verifyButton.click();
   }
 
-  async validateIncorrectOtp() {
+  async validateIncorrectOtptoastermsg() {
     await expect(this.errorMessage).toBeVisible();
   }
 
