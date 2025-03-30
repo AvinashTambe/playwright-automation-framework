@@ -1,0 +1,13 @@
+tests/
+│── flipkart_tests/
+│   ├── homepage.spec.js         # Tests for Flipkart homepage UI & elements
+│   ├── search.spec.js           # Tests for search functionality
+│   ├── navigation.spec.js       # Tests for menu navigation & links
+│   ├── product-list.spec.js     # Tests for product listing, sorting, and filtering
+│   ├── add-to-cart.spec.js      # Tests for adding/removing items in the cart
+│   ├── performance.spec.js      # Tests for page load time and performance
+│── pages/
+│   ├── HomePage.js              # POM for Flipkart homepage
+│   ├── SearchPage.js            # POM for search functionality
+│   ├── ProductPage.js           # POM for product listing
+

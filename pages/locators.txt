@@ -1,0 +1,120 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://www.flipkart.com/');
+  await page.getByRole('textbox', { name: 'Search for Products, Brands' }).click();
+  await page.getByRole('button', { name: 'Search for Products, Brands' }).click();
+  await page.getByRole('link', { name: 'Login Login' }).click();
+  await page.locator('form').filter({ hasText: 'Enter Email/Mobile numberBy' }).getByRole('textbox').click();
+  await page.getByRole('button', { name: 'Request OTP' }).click();
+  await page.locator('span').filter({ hasText: 'Please enter valid Email ID/' }).first().click();
+  await page.getByRole('link', { name: 'New to Flipkart? Create an' }).click();
+  await page.locator('form').filter({ hasText: 'Enter Mobile numberBy' }).getByRole('textbox').click();
+  await page.getByRole('button', { name: 'CONTINUE' }).click();
+  await page.getByText('Please enter a valid Mobile').click();
+  await page.getByRole('link', { name: 'Existing User? Log in' }).click();
+  await page.goto('https://www.flipkart.com/');
+  await page.locator('form').filter({ hasText: 'Enter Email/Mobile numberBy' }).getByRole('textbox').press('Escape');
+  await page.getByRole('link', { name: 'Cart' }).first().click();
+  await page.goto('https://www.flipkart.com/');
+  await page.getByRole('banner').getByText('Become a Seller').click();
+  await page.getByRole('link', { name: 'Dropdown with more help links' }).click();
+
+  import { test, expect } from '@playwright/test';
+
+----------------- Login ----------------
+test('test', async ({ page }) => {
+  await page.goto('https://www.flipkart.com/');
+  await page.getByRole('link', { name: 'Login Login' }).click();
+  await page.locator('form').filter({ hasText: 'Enter Email/Mobile numberBy' }).getByRole('textbox').click();
+  await page.getByRole('button', { name: 'Request OTP' }).click();
+  await page.getByText('Please enter valid Email ID/').click();
+  await page.getByRole('link', { name: 'New to Flipkart? Create an' }).click();
+  await page.locator('form').filter({ hasText: 'Enter Email/Mobile numberBy' }).getByRole('textbox').click();
+  await page.locator('form').filter({ hasText: 'Enter Email/Mobile numberBy' }).getByRole('textbox').fill('avitambe3000@gmail.com');
+  await page.getByRole('button', { name: 'Request OTP' }).click();
+  await page.locator('.r4vIwl').first().click();
+  await page.locator('div:nth-child(2) > .r4vIwl').click();
+  await page.locator('div:nth-child(3) > .r4vIwl').click();
+  await page.locator('div:nth-child(4) > .r4vIwl').click();
+  await page.locator('div:nth-child(5) > .r4vIwl').click();
+  await page.locator('div:nth-child(5) > .r4vIwl').press('Tab');
+  await page.getByRole('button', { name: 'Verify' }).click();
+  await page.getByRole('button', { name: 'Verify' }).click();
+  await page.getByText('Resend code').click();
+  await page.locator('.r4vIwl').first().click();
+  await page.locator('.r4vIwl').first().fill('1');
+  await page.locator('div:nth-child(2) > .r4vIwl').fill('2');
+  await page.locator('div:nth-child(3) > .r4vIwl').fill('3');
+  await page.locator('div:nth-child(4) > .r4vIwl').fill('4');
+  await page.locator('div:nth-child(5) > .r4vIwl').fill('5');
+  await page.locator('div:nth-child(6) > .r4vIwl').fill('6');
+  await page.getByRole('button', { name: 'Verify' }).click();
+  await page.getByText('OTP is incorrect').click();
+  await page.locator('div:nth-child(6) > .r4vIwl').click();
+  await page.locator('div:nth-child(5) > .r4vIwl').fill('');
+  await page.locator('div:nth-child(4) > .r4vIwl').fill('');
+  await page.locator('div:nth-child(3) > .r4vIwl').fill('');
+  await page.locator('div:nth-child(2) > .r4vIwl').fill('');
+  await page.locator('.r4vIwl').first().fill('7');
+  await page.locator('div:nth-child(2) > .r4vIwl').fill('5');
+  await page.locator('div:nth-child(3) > .r4vIwl').fill('1');
+  await page.locator('div:nth-child(4) > .r4vIwl').fill('8');
+  await page.locator('div:nth-child(5) > .r4vIwl').fill('1');
+  await page.locator('div:nth-child(6) > .r4vIwl').fill('8');
+  await page.getByRole('link', { name: 'Avinash Avinash' }).click();
+});
+
+
+
+
+});
+
+---------------------------------Search--------------------
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://www.flipkart.com/');
+  await page.getByRole('textbox', { name: 'Search for Products, Brands' }).click();
+  await page.getByRole('textbox', { name: 'Search for Products, Brands' }).fill('mobile');
+  await page.getByRole('textbox', { name: 'Search for Products, Brands' }).press('Enter');
+  await page.getByRole('button', { name: 'Search for Products, Brands' }).click();
+  await page.locator('div').filter({ hasText: /^Min₹10000₹15000₹20000₹30000$/ }).getByRole('combobox').selectOption('10000');
+  await page.goto('https://www.flipkart.com/search?q=mobile&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off&p%5B%5D=facets.price_range.from%3D10000&p%5B%5D=facets.price_range.to%3DMax');
+  await page.getByRole('textbox', { name: 'Search Brand' }).click();
+  await page.getByRole('textbox', { name: 'Search Brand' }).fill('Apple');
+  await page.getByRole('textbox', { name: 'Search Brand' }).press('Enter');
+  await page.getByTitle('Apple').locator('div').nth(1).click();
+  await page.locator('div').filter({ hasText: /^✕Clear all$/ }).locator('span').click();
+  await page.getByText('61 MORE').click();
+  await page.getByText('SAMSUNG').click();
+  await page.getByTitle('SAMSUNG').locator('div').nth(1).click();
+  await page.getByTitle('Google').locator('div').nth(1).click();
+  await page.getByTitle('Google').locator('div').nth(1).click();
+  await page.getByTitle('SAMSUNG').locator('div').nth(1).click();
+  await page.getByText('Apply Filters').click();
+  await page.locator('section').filter({ hasText: '?' }).locator('div').first().click();
+  await page.getByTitle('4★ & above').locator('label').click();
+  await page.getByTitle('3★ & above').locator('div').nth(1).click();
+  await page.getByTitle('4 GB').locator('div').nth(1).click();
+  await page.getByTitle('6 GB', { exact: true }).locator('div').nth(1).click();
+  await page.getByText('Internal Storage').click();
+  await page.getByTitle('- 127.9 GB').locator('div').nth(1).click();
+  await page.getByText('Battery Capacity').click();
+  await page.getByTitle('- 5999 mAh').locator('div').nth(1).click();
+  await page.getByText('Screen Size').click();
+  await page.getByTitle('inch & Above').locator('div').nth(1).click();
+  await page.getByText('Primary Camera').click();
+  await page.getByText('- 63.9 MP').click();
+  await page.getByText('Secondary Camera').click();
+  await page.getByText('- 15.9 MP').click();
+  await page.locator('div').filter({ hasText: /^Processor Brand$/ }).first().click();
+  await page.getByText('Exynos', { exact: true }).click();
+  await page.getByText('30% or more').click();
+  await page.getByTitle('Special Price').locator('div').nth(1).click();
+  await page.getByText('Relevance').click();
+  await page.locator('.H30l\\+S').click();
+  await page.goto('https://www.flipkart.com/search?q=mobile&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off&p%5B%5D=facets.processor_brand%255B%255D%3DExynos&p%5B%5D=facets.primary_camera%255B%255D%3D48%2B-%2B63.9%2BMP&p%5B%5D=facets.discount_range_v1%255B%255D%3D30%2525%2Bor%2Bmore&p%5B%5D=facets.fulfilled_by%255B%255D%3DF-Assured&p%5B%5D=facets.internal_storage%255B%255D%3D64%2B-%2B127.9%2BGB&p%5B%5D=facets.rating%255B%255D%3D4%25E2%2598%2585%2B%2526%2Babove&p%5B%5D=facets.rating%255B%255D%3D3%25E2%2598%2585%2B%2526%2Babove&p%5B%5D=facets.price_range.from%3D10000&p%5B%5D=facets.price_range.to%3DMax&p%5B%5D=facets.screen_size%255B%255D%3D6.4%2Binch%2B%2526%2BAbove&p%5B%5D=facets.battery_capacity%255B%255D%3D5000%2B-%2B5999%2BmAh&p%5B%5D=facets.secondary_camera%255B%255D%3D12%2B-%2B15.9%2BMP&p%5B%5D=facets.brand%255B%255D%3DSAMSUNG&p%5B%5D=facets.ram%255B%255D%3D4%2BGB&p%5B%5D=facets.ram%255B%255D%3D6%2BGB&p%5B%5D=facets.offer_type%255B%255D%3DSpecial%2BPrice&sort=price_desc');
+  await page.getByText('Newest First').click();
+  await page.locator('section').filter({ hasText: 'FiltersClear all✕₹10000-₹' }).locator('span').nth(1).click();
+}); 
