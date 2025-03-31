@@ -20,10 +20,7 @@ export class LoginPage {
     this.page = page;
     this.loginLink = page.getByRole("link", { name: "Login Login" }); // ✅ Fixed typo "gaetByRole" → "getByRole"
     //this.emailInput = page.locator("//form//input[@type='text']").first();
-    this.emailInput = page
-      .locator("form")
-      .filter({ hasText: "Enter Email/Mobile numberBy" })
-      .getByRole("textbox");
+    this.emailInput = page.locator("input[class='r4vIwl BV+Dqf']");
     //this.emailInput = page.getByPlaceholder('Enter Email/Mobile number');
     this.requestOtpButton = page.getByRole("button", { name: "Request OTP" });
     this.otpInputs = page.locator("//div[@class='XDRRi5']//input");

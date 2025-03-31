@@ -1,18 +1,28 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { config } from 'dotenv';  // ✅ Load dotenv
-
+require('dotenv').config(); // Ensure environment variables are loaded
 
 test.beforeEach(async ({ page }) => {
-  const loginPage = new LoginPage(page)
-  await loginPage.navigate();  // Call the navigate function before each test
+  const loginPage = new LoginPage(page);
+  await loginPage.navigate(); // Call the navigate function before each test
+
+  // Ensure EMAIL_USER is set
+  const userEmail = process.env.EMAIL_USER || "";
+  if (!userEmail) {
+    console.error("❌ EMAIL_USER environment variable is not set. Please check your .env file.");
+    throw new Error("EMAIL_USER environment variable is not set.");
+  }
 });
 
-
 test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
-  const loginPage = new LoginPage(page)
-  const userEmail = process.env.EMAIL_USER; 
+  const loginPage = new LoginPage(page);
+  const userEmail = process.env.EMAIL_USER;
   console.log("User Email:", userEmail);
+  if (!userEmail) {
+    throw new Error("EMAIL_USER environment variable is not set.");
+  }
+
   test.setTimeout(60000); // Set timeout to 60 seconds
   await loginPage.openLoginPage();
   await page.waitForTimeout(3000);
@@ -27,9 +37,11 @@ test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
 });
 
 test('Verify Flipkart login with OTP', async ({ page }) => {
-  const loginPage = new LoginPage(page)
-  // ✅ Load email from .env
-  const userEmail = process.env.EMAIL_USER; 
+  const loginPage = new LoginPage(page);
+  const userEmail = process.env.EMAIL_USER || "";
+  if (!userEmail) {
+    throw new Error("EMAIL_USER environment variable is not set.");
+  }
   console.log("User Email:", userEmail);
   test.setTimeout(60000); // Set timeout to 60 seconds
   await loginPage.openLoginPage();
