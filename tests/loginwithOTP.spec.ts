@@ -15,6 +15,59 @@ test.beforeEach(async ({ page }) => {
   }
 });
 
+test('Verify login with unregistered email', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const userEmail = process.env.INVALID_USER || "";
+  if (!userEmail) {
+    throw new Error("INVALID_USER environment variable is not set.");
+  }
+  console.log("User Email:", userEmail);
+  test.setTimeout(60000); // Set timeout to 60 seconds
+  await loginPage.openLoginPage();
+  await page.waitForTimeout(3000);
+  await loginPage.enterEmail(userEmail);
+  await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  await page.waitForTimeout(1000); // Wait for OTP email to arrive
+  await loginPage.unregisteredemailtoasterNotification();
+});
+
+test('Verify Flipkart login with invalid or empty email', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const userEmail = "invalid_user>";
+  console.log("User Email:", userEmail);
+  test.setTimeout(60000); // Set timeout to 60 seconds
+  await loginPage.openLoginPage();
+  await page.waitForTimeout(3000);
+  await loginPage.enterEmail(userEmail);
+  await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  await page.waitForTimeout(1000); // Wait for OTP email to arrive
+  await loginPage.invalidemailtoasterNotification();
+});
+
+test('Change Email in OTP page', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const initialEmail = "avitambe3000@gmail.com";
+  test.setTimeout(60000); // Set timeout to 60 seconds
+  await loginPage.openLoginPage();
+  await page.waitForTimeout(3000);
+  await loginPage.enterEmail(initialEmail);
+  
+  await loginPage.requestOtp(initialEmail); // ✅ Dynamic email validation
+  await loginPage.requestOTPtoastNotification(initialEmail);
+  await loginPage.changeEmail();
+  await page.waitForTimeout(1000); // Wait for OTP email to arrive
+  await loginPage.clearEmail(initialEmail);
+  /*const userEmail = process.env.EMAIL_USER;
+  console.log("User Email:", userEmail);
+  if (!userEmail) {
+    throw new Error("EMAIL_USER environment variable is not set.");
+  }
+  await loginPage.enterEmail(userEmail);
+  await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  await page.waitForTimeout(1000); // Wait for OTP email to arrive
+  await loginPage.requestOTPtoastNotification(userEmail);*/
+});
+
 test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const userEmail = process.env.EMAIL_USER;

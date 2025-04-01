@@ -1,6 +1,7 @@
 import { test, expect, Page } from "@playwright/test";
 import imaps from "imap-simple";
 import dotenv from "dotenv";
+import { text } from "stream/consumers";
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ export class LoginPage {
   verifyButton: any;
   errorMessage: any;
   resendOtpbutton: any;
+  toasternotification: any;
+  invalidemailToaster: any;
+  changeEmailbutton: any;
+  
   constructor(page) {
     this.page = page;
     this.loginLink = page.getByRole("link", { name: "Login Login" }); // ✅ Fixed typo "gaetByRole" → "getByRole"
@@ -27,6 +32,9 @@ export class LoginPage {
     this.verifyButton = page.getByRole("button", { name: "Verify" });
     this.resendOtpbutton = page.getByText("Resend code");
     this.errorMessage = page.getByText("OTP is incorrect");
+    this.toasternotification = page.locator("//div[@class='eIDgeN']");
+    this.invalidemailToaster = page.locator('.llBOFA');
+    this.changeEmailbutton = page.locator(".azBkHf");
   }
 
   async navigate() {
@@ -44,9 +52,21 @@ export class LoginPage {
     await this.page.waitForTimeout(1000);
   }
 
+  async clearEmail(initialEmail){
+    //const emailField = this.page.locator(`input[value='${initialEmail}']`);
+    const emailField = this.page.locator("input[class='r4vIwl BV+Dqf']");
+    await expect(emailField).toBeVisible({ timeout: 10000 }); // ✅ Wait for the field to be visible
+    await emailField.click({ clickCount: 3 }); // ✅ Select the entire field content
+    await emailField.press('Backspace'); // ✅ Clear the field
+    await expect(emailField).toHaveValue(''); // ✅ Ensure the field is empty
+  }
+
   async requestOtp(email) {
     await this.requestOtpButton.click();
     console.log("Request OTP button clicked");
+  }
+
+  async requestOTPtoastNotification(email) {
     const verificationMessage = this.page.locator(`text=Verification code sent to ${email}`);
     await expect(verificationMessage).toBeVisible();
     console.group("Verification code sent confirmation displayed");
@@ -147,9 +167,28 @@ export class LoginPage {
 
   async validateIncorrectOtptoastermsg() {
     await expect(this.errorMessage).toBeVisible();
+    await expect(this.errorMessage).toHaveText("OTP is incorrect");
+    console.log("Incorrect OTP toaster message displayed");
   }
 
   async resendOtp() {
     await this.resendOtpbutton.click();
+  }
+
+  async unregisteredemailtoasterNotification() {
+    await expect(this.toasternotification).toBeVisible();
+    await expect(this.toasternotification).toHaveText("You are not registered with us. Please sign up.");
+    console.log("Unregistered email toaster message displayed");
+  }
+
+  async invalidemailtoasterNotification() {
+    await expect(this.invalidemailToaster).toBeVisible();
+    await expect(this.invalidemailToaster).toHaveText("Please enter valid Email ID/Mobile number");
+    console.log("Invalid email toaster message displayed");
+  }
+  
+  async changeEmail() {
+    await this.changeEmailbutton.click();
+    console.log("Change email button clicked");
   }
 }
