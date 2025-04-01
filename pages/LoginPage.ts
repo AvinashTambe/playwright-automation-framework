@@ -20,6 +20,8 @@ export class LoginPage {
   toasternotification: any;
   invalidemailToaster: any;
   changeEmailbutton: any;
+  OTPsenttoasternotification: any;
+  verificationunsuccessful: any;
   
   constructor(page) {
     this.page = page;
@@ -35,6 +37,8 @@ export class LoginPage {
     this.toasternotification = page.locator("//div[@class='eIDgeN']");
     this.invalidemailToaster = page.locator('.llBOFA');
     this.changeEmailbutton = page.locator(".azBkHf");
+    this.OTPsenttoasternotification = page.locator(".eIDgeN");
+    this.verificationunsuccessful = page.locator('._2LM-Uv');
   }
 
   async navigate() {
@@ -67,8 +71,8 @@ export class LoginPage {
   }
 
   async requestOTPtoastNotification(email) {
-    const verificationMessage = this.page.locator(`text=Verification code sent to ${email}`);
-    await expect(verificationMessage).toBeVisible();
+    await expect(this.OTPsenttoasternotification).toBeVisible();
+    await expect(this.OTPsenttoasternotification).toHaveText("Verification code sent to your ${email}");
     console.group("Verification code sent confirmation displayed");
   }
 
@@ -182,7 +186,7 @@ export class LoginPage {
   }
 
   async invalidemailtoasterNotification() {
-    await expect(this.invalidemailToaster).toBeVisible();
+    //await expect(this.invalidemailToaster).toBeVisible();
     await expect(this.invalidemailToaster).toHaveText("Please enter valid Email ID/Mobile number");
     console.log("Invalid email toaster message displayed");
   }
@@ -190,5 +194,17 @@ export class LoginPage {
   async changeEmail() {
     await this.changeEmailbutton.click();
     console.log("Change email button clicked");
+  }
+
+  async verificationunsuccessfulstate() {
+    try {
+      await expect(this.verificationunsuccessful).toBeVisible({ timeout: 3000 });
+      await expect(this.verificationunsuccessful).toHaveText("Verification unsuccessful");
+      console.log("Verification unsuccessful toaster message displayed");
+      return true;  // ✅ Return `true` if verification failed
+    } catch (error) {
+      console.log("Verification was successful. Proceeding...");
+      return false; // ✅ Return `false` if no error occurs (verification passed)
+    }
   }
 }

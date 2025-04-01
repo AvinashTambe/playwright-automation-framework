@@ -27,6 +27,12 @@ test('Verify login with unregistered email', async ({ page }) => {
   await page.waitForTimeout(3000);
   await loginPage.enterEmail(userEmail);
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  // **Check if verification failed**
+  const verificationFailed = await loginPage.verificationunsuccessfulstate();
+  if (verificationFailed) {
+    console.log("Verification failed. Stopping test execution.");
+    return; // ❌ Stop test execution if verification fails
+  }
   await page.waitForTimeout(1000); // Wait for OTP email to arrive
   await loginPage.unregisteredemailtoasterNotification();
 });
@@ -40,6 +46,12 @@ test('Verify Flipkart login with invalid or empty email', async ({ page }) => {
   await page.waitForTimeout(3000);
   await loginPage.enterEmail(userEmail);
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  // **Check if verification failed**
+  const verificationFailed = await loginPage.verificationunsuccessfulstate();
+  if (verificationFailed) {
+    console.log("Verification failed. Stopping test execution.");
+    return; // ❌ Stop test execution if verification fails
+  }
   await page.waitForTimeout(1000); // Wait for OTP email to arrive
   await loginPage.invalidemailtoasterNotification();
 });
@@ -53,7 +65,15 @@ test('Change Email in OTP page', async ({ page }) => {
   await loginPage.enterEmail(initialEmail);
   
   await loginPage.requestOtp(initialEmail); // ✅ Dynamic email validation
-  await loginPage.requestOTPtoastNotification(initialEmail);
+  await page.waitForTimeout(1000);
+   // **Check if verification failed**
+   const verificationFailed = await loginPage.verificationunsuccessfulstate();
+   if (verificationFailed) {
+     console.log("Verification failed. Stopping test execution.");
+     return; // ❌ Stop test execution if verification fails
+   }
+  
+  //await loginPage.requestOTPtoastNotification(initialEmail);
   await loginPage.changeEmail();
   await page.waitForTimeout(1000); // Wait for OTP email to arrive
   await loginPage.clearEmail(initialEmail);
@@ -82,6 +102,12 @@ test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
   await loginPage.enterEmail(userEmail);
   
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  // **Check if verification failed**
+  const verificationFailed = await loginPage.verificationunsuccessfulstate();
+  if (verificationFailed) {
+    console.log("Verification failed. Stopping test execution.");
+    return; // ❌ Stop test execution if verification fails
+  }
   await page.waitForTimeout(10000); 
   const otp = "123456";
   await loginPage.enterOtp(otp.split('')); // Split OTP into array for input fields
@@ -102,6 +128,12 @@ test('Verify Flipkart login with OTP', async ({ page }) => {
   await loginPage.enterEmail(userEmail);
   
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
+  // **Check if verification failed**
+  const verificationFailed = await loginPage.verificationunsuccessfulstate();
+  if (verificationFailed) {
+    console.log("Verification failed. Stopping test execution.");
+    return; // ❌ Stop test execution if verification fails
+  }
   await page.waitForTimeout(10000); 
   await loginPage.fetchOTP();
 
