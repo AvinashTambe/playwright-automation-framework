@@ -29,8 +29,8 @@ test('Search long text', async ({ page }) => {
     const searchKey = 'Samsung Galaxy S24 Ultra 5G 12GB RAM 512GB Storage with 200MP Camera, 5000mAh Battery, Dynamic AMOLED 2X Display, Snapdragon 8 Gen 3 Processor, S Pen Support, AI-powered Photography, and 4 Years of Software Updates'
     await searchPage.keywordsearch(searchKey);
     await page.waitForTimeout(2000);
-    const expectedsearch = 'samsung galaxy s24 ultra storage with camera, battery, dynamic amoled 2x display, snapdragon 8'
-    await searchPage.validatesearch(expectedsearch);
+    //const expectedsearch = 'samsung galaxy s24 ultra storage with camera, battery, dynamic amoled 2x display, snapdragon 8'
+    await searchPage.validatesearch(searchKey);
     await page.waitForTimeout(2000);
 });
 

@@ -15,9 +15,9 @@ export class SearchPage{
 
     constructor(page){
         this.page = page;
-        this.searchbar_textbox = page.getByRole('textbox', { name: 'Search for Products, Brands' }); //🔍 Search bar
-        this.search_button = page.getByRole('button', { name: 'Search for Products, Brands' });
-        this.search_mobile = page.getByLabel('Mobiles'); //Mobiles Category button
+        this.searchbar_textbox = page.locator('input.Pke_EE'); //🔍 Search bar
+        this.search_button = page.locator('button._2iLD__'); //🔍 Search button
+        this.search_mobile = page.locator("(//div[@class='YBLJE4'])[2]"); //Mobiles Category button
         this.searchResultsText = page.locator("//span[@class='BUOuZu']");  // Locator for search results text
         this.minprice_dropdown = page.locator("//div[@class='suthUA']//select[@class='Gn+jFg']"); //Min Price dropdown button
         this.maxprice_dropdown = page.locator("//div[@class='tKgS7w']//select[@class='Gn+jFg']"); //Max Price dropdown button
