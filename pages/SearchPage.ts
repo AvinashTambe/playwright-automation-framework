@@ -1,6 +1,17 @@
 import { test, expect } from '@playwright/test';
 
 export class SearchPage{
+    page: any;
+    searchbar_textbox: any;
+    search_button: any;
+    search_mobile: any;
+    searchResultsText: any;
+    minprice_dropdown: any;
+    maxprice_dropdown: any;
+    filter: any;
+    searchbrand: any;
+    brandFilterOption: any;
+    invalidSearchText: any;
 
     constructor(page){
         this.page = page;
@@ -13,7 +24,7 @@ export class SearchPage{
         this.filter = page.locator("//div[@class='_6tw8ju']") // Locator of showing applied filter
         this.searchbrand = page.getByRole('textbox', {name: "Search Brand"}); //Locator for search brand filter
         this.brandFilterOption = (brand) => page.getByTitle(brand).locator('div').nth(1); // Dynamic brand locator
-
+        this.invalidSearchText = page.locator('.BHPsUQ') // Locator for invalid search text
     }
 
     async navigate() {
@@ -28,15 +39,27 @@ export class SearchPage{
         await this.search_button.click();
     }
 
-    async validatesearch(expectedsearchkey){
-        console.log(`🔍 Validating Searching for: ${expectedsearchkey}`);
-        await expect(this.searchResultsText).toBeVisible();  // ✅ Ensure search result text is visible
-        const searchResultText = await this.searchResultsText.textContent();
-        
-        console.log(`🔍 Search results message: ${searchResultText}`);
-        expect(searchResultText).toContain(expectedsearchkey); // ✅ Validate search result contains the expected key
-
+    async validatesearch(expectedsearchkey) {
+        console.log(`🔍 Validating Search for: ${expectedsearchkey}`);
+    
+        // Check if the "Sorry, no results found!" message is visible
+        const isNoResultsVisible = await this.invalidSearchText.isVisible();
+    
+        if (isNoResultsVisible) {
+            const noResultsMessage = await this.invalidSearchText.textContent();
+            expect(noResultsMessage).toContain("Sorry, no results found!");  // Validate "no results" message
+            console.log(`❌ No results found for: ${expectedsearchkey}`);
+        } else {
+            await expect(this.searchResultsText).toBeVisible();  // Ensure search result text is visible
+            const searchResultText = await this.searchResultsText.textContent();
+    
+            console.log(`🔍 Search results message: ${searchResultText}`);
+            console.log(`✅ Results found for: ${expectedsearchkey}`);
+            expect(searchResultText).toContain(expectedsearchkey); // Validate search result contains expected key
+        }
     }
+    
+     
 
     async applypricefilter(minPrice, maxPrice){
         console.log(`🔹 Applying price filter: Min=${minPrice}, Max=${maxPrice}`);
@@ -99,4 +122,4 @@ export class SearchPage{
         console.log(`🔍 Extracted Filter Text: ${filterText}`);
     }
 
-}
+}   
