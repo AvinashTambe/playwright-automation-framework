@@ -56,7 +56,7 @@ test('Verify Flipkart login with invalid or empty email', async ({ page }) => {
   await loginPage.invalidemailtoasterNotification();
 });
 
-test('Change Email in OTP page', async ({ page }) => {
+test('Change Email on OTP page', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const initialEmail = "avitambe3000@gmail.com";
   test.setTimeout(60000); // Set timeout to 60 seconds
@@ -73,19 +73,19 @@ test('Change Email in OTP page', async ({ page }) => {
      return; // ❌ Stop test execution if verification fails
    }
   
-  //await loginPage.requestOTPtoastNotification(initialEmail);
+  await loginPage.requestOTPtoastNotification(initialEmail);
   await loginPage.changeEmail();
-  await page.waitForTimeout(1000); // Wait for OTP email to arrive
+  await page.waitForTimeout(2000); // Wait for OTP email to arrive
   await loginPage.clearEmail(initialEmail);
-  /*const userEmail = process.env.EMAIL_USER;
+  const userEmail = process.env.EMAIL_USER;
   console.log("User Email:", userEmail);
   if (!userEmail) {
     throw new Error("EMAIL_USER environment variable is not set.");
   }
   await loginPage.enterEmail(userEmail);
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
-  await page.waitForTimeout(1000); // Wait for OTP email to arrive
-  await loginPage.requestOTPtoastNotification(userEmail);*/
+  //await page.waitForTimeout(1000); // Wait for OTP email to arrive
+  await loginPage.requestOTPtoastNotification(userEmail);
 });
 
 test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
@@ -100,7 +100,6 @@ test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
   await loginPage.openLoginPage();
   await page.waitForTimeout(3000);
   await loginPage.enterEmail(userEmail);
-  
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
   // **Check if verification failed**
   const verificationFailed = await loginPage.verificationunsuccessfulstate();
@@ -108,6 +107,7 @@ test('Verify Flipkart login with incorrect OTP', async ({ page }) => {
     console.log("Verification failed. Stopping test execution.");
     return; // ❌ Stop test execution if verification fails
   }
+  await loginPage.requestOTPtoastNotification(userEmail);
   await page.waitForTimeout(10000); 
   const otp = "123456";
   await loginPage.enterOtp(otp.split('')); // Split OTP into array for input fields
@@ -134,6 +134,7 @@ test('Verify Flipkart login with OTP', async ({ page }) => {
     console.log("Verification failed. Stopping test execution.");
     return; // ❌ Stop test execution if verification fails
   }
+  await loginPage.requestOTPtoastNotification(userEmail);
   await page.waitForTimeout(10000); 
   await loginPage.fetchOTP();
 
@@ -149,11 +150,4 @@ test('Verify Flipkart login with OTP', async ({ page }) => {
   await loginPage.verifyOtp();
 
   console.log("✅ OTP Entered & Verified");
-   
-
-//   // Validate incorrect OTP scenario
-//   await loginPage.validateIncorrectOtp();
-
-//   // Resend OTP option
-//   await loginPage.resendOtp();
 });

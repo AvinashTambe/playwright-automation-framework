@@ -6,6 +6,7 @@ import { text } from "stream/consumers";
 dotenv.config();
 
 export class LoginPage {
+  emailField: any;
   static navigate(page: Page) {
     throw new Error('Method not implemented.');
   }
@@ -57,11 +58,10 @@ export class LoginPage {
   }
 
   async clearEmail(initialEmail){
-    //const emailField = this.page.locator(`input[value='${initialEmail}']`);
-    const emailField = this.page.locator("input[class='r4vIwl BV+Dqf']");
-    await expect(emailField).toBeVisible({ timeout: 10000 }); // ✅ Wait for the field to be visible
+    const emailField = this.page.locator('form').filter({ hasText: 'Enter Email/Mobile numberBy' }).getByRole('textbox');
     await emailField.click({ clickCount: 3 }); // ✅ Select the entire field content
     await emailField.press('Backspace'); // ✅ Clear the field
+    await this.page.waitForTimeout(1000); // ✅ Optional: Wait for a secon
     await expect(emailField).toHaveValue(''); // ✅ Ensure the field is empty
   }
 
@@ -72,7 +72,7 @@ export class LoginPage {
 
   async requestOTPtoastNotification(email) {
     await expect(this.OTPsenttoasternotification).toBeVisible();
-    await expect(this.OTPsenttoasternotification).toHaveText("Verification code sent to your ${email}");
+    await expect(this.OTPsenttoasternotification).toHaveText("Verification code sent to ${email}");
     console.group("Verification code sent confirmation displayed");
   }
 
