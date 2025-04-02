@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { config } from 'dotenv';  // ✅ Load dotenv
-require('dotenv').config(); // Ensure environment variables are loaded
+config(); // Properly initialize dotenv to load environment variables
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -63,28 +63,27 @@ test('Change Email on OTP page', async ({ page }) => {
   await loginPage.openLoginPage();
   await page.waitForTimeout(3000);
   await loginPage.enterEmail(initialEmail);
-  
+
   await loginPage.requestOtp(initialEmail); // ✅ Dynamic email validation
   await page.waitForTimeout(1000);
-   // **Check if verification failed**
-   const verificationFailed = await loginPage.verificationunsuccessfulstate();
-   if (verificationFailed) {
-     console.log("Verification failed. Stopping test execution.");
-     return; // ❌ Stop test execution if verification fails
-   }
-  
+  // **Check if verification failed**
+  const verificationFailed = await loginPage.verificationunsuccessfulstate();
+  if (verificationFailed) {
+    console.log("Verification failed. Stopping test execution.");
+    return; // ❌ Stop test execution if verification fails
+  }
+
   await loginPage.requestOTPtoastNotification(initialEmail);
   await loginPage.changeEmail();
   await page.waitForTimeout(2000); // Wait for OTP email to arrive
   await loginPage.clearEmail(initialEmail);
-  const userEmail = process.env.EMAIL_USER;
+  const userEmail = process.env.EMAIL_USER || "";
   console.log("User Email:", userEmail);
   if (!userEmail) {
     throw new Error("EMAIL_USER environment variable is not set.");
   }
   await loginPage.enterEmail(userEmail);
   await loginPage.requestOtp(userEmail); // ✅ Dynamic email validation
-  //await page.waitForTimeout(1000); // Wait for OTP email to arrive
   await loginPage.requestOTPtoastNotification(userEmail);
 });
 
